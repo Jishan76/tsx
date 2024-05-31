@@ -67,7 +67,7 @@ module.exports = {
         const textHeight = 70;
         const textPadding = 10; 
         const textBoxWidth = textWidth + 6 * textPadding;
-        const textBoxHeight = textHeight + 3 * textPadding;
+        const textBoxHeight = textHeight + 1 * textPadding;
         const textBoxX = 150;
 
         const borderRadius = Math.min(textBoxWidth, textBoxHeight) / 2; 
