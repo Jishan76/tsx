@@ -29,7 +29,7 @@ module.exports = {
             return api.sendMessage("Failed to load profile picture.", event.threadID, event.messageID);
         }
 
-        const circleSize = 100;
+        const circleSize = 90;
         const avtwo = await createCircularImage(mentionedUserProfilePic, circleSize);
 
         const background = await loadImage("https://i.ibb.co/SVmYmrn/420578140-383334164549458-685915027190897272-n.jpg");
@@ -41,7 +41,7 @@ module.exports = {
      
         const profilePicY = 90;
         const mentionNameY = 50;
-        const greyBoxY = 100; 
+        const greyBoxY = 80; 
         const blueBoxY = greyBoxY + 130; 
 
         drawImage(ctx, avtwo, 30, profilePicY);
@@ -66,8 +66,8 @@ module.exports = {
         const textWidth = ctx.measureText(textParts[1]).width;
         const textHeight = 70;
         const textPadding = 10; 
-        const textBoxWidth = textWidth + 2 * textPadding;
-        const textBoxHeight = textHeight + 2 * textPadding;
+        const textBoxWidth = textWidth + 6 * textPadding;
+        const textBoxHeight = textHeight + 6 * textPadding;
         const textBoxX = 150;
 
         const borderRadius = Math.min(textBoxWidth, textBoxHeight) / 2; 
