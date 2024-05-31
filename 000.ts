@@ -29,7 +29,7 @@ module.exports = {
             return api.sendMessage("Failed to load profile picture.", event.threadID, event.messageID);
         }
 
-        const circleSize = 70;
+        const circleSize = 100;
         const avtwo = await createCircularImage(mentionedUserProfilePic, circleSize);
 
         const background = await loadImage("https://i.ibb.co/SVmYmrn/420578140-383334164549458-685915027190897272-n.jpg");
