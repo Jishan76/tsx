@@ -109,12 +109,9 @@ function createCircularImage(url, size) {
     });
 }
 
-function drawImage(context, image, x, y) {
-    const img = new Image();
-    img.onload = () => {
-        context.drawImage(img, x, y);
-    };
-    img.src = image;
+async function drawImage(context, image, x, y) {
+    const img = await loadImage(image);
+    context.drawImage(img, x, y);
 }
 
 function getMentionName(args) {
