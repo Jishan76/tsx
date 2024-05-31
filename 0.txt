@@ -100,12 +100,13 @@ module.exports = {
         // Draw text bubble
         ctx.fillStyle = myBubbleColor;
         const bubbleX = avtX + avtSize + 10;
+        const bubbleY = avtY; // Ensure the bubble starts from the top of the avatar
         ctx.beginPath();
-        ctx.moveTo(bubbleX, y);
-        ctx.arcTo(bubbleX + bubbleWidth, y, bubbleX + bubbleWidth, y + bubbleHeight, bubbleRadius);
-        ctx.arcTo(bubbleX + bubbleWidth, y + bubbleHeight, bubbleX, y + bubbleHeight, bubbleRadius);
-        ctx.arcTo(bubbleX, y + bubbleHeight, bubbleX, y, bubbleRadius);
-        ctx.arcTo(bubbleX, y, bubbleX + bubbleWidth, y, bubbleRadius);
+        ctx.moveTo(bubbleX, bubbleY);
+        ctx.arcTo(bubbleX + bubbleWidth, bubbleY, bubbleX + bubbleWidth, bubbleY + bubbleHeight, bubbleRadius);
+        ctx.arcTo(bubbleX + bubbleWidth, bubbleY + bubbleHeight, bubbleX, bubbleY + bubbleHeight, bubbleRadius);
+        ctx.arcTo(bubbleX, bubbleY + bubbleHeight, bubbleX, bubbleY, bubbleRadius);
+        ctx.arcTo(bubbleX, bubbleY, bubbleX + bubbleWidth, bubbleY, bubbleRadius);
         ctx.closePath();
         ctx.fill();
 
@@ -114,7 +115,7 @@ module.exports = {
         ctx.font = "20px sans-serif";
         ctx.textBaseline = "top";
         lines.forEach((line, index) => {
-          ctx.fillText(line, bubbleX + bubblePadding, y + bubblePadding + index * 24);
+          ctx.fillText(line, bubbleX + bubblePadding, bubbleY + bubblePadding + index * 24);
         });
 
         // Update y position for the next bubble
