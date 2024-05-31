@@ -70,59 +70,56 @@ module.exports = {
 
     // Set chat bubble colors
     const myBubbleColor = '#0084ff'; // Blue
-    const otherBubbleColor = '#e5e5ea'; // Light gray
     const textColor = '#ffffff'; // White
 
     // Draw chat bubbles and text
     const bubblePadding = 10;
     const bubbleMargin = 10;
     const bubbleRadius = 20;
-    const bubbleHeight = 100; // Increased bubble height to accommodate profile picture
-    const maxWidth = canvasWidth - 2 * bubbleMargin - 2 * bubblePadding;
+    const maxWidth = canvasWidth - 150; // Max width for the text bubble
 
     let y = bubbleMargin;
     for (let i = 0; i < messages.length; i++) {
-        const message = messages[i];
-        const lines = await this.wrapText(ctx, message, maxWidth);
-        if (lines) {
-            const bubbleWidth = Math.max(...lines.map(line => ctx.measureText(line).width)) + 2 * bubblePadding;
+      const message = messages[i];
+      const lines = await this.wrapText(ctx, message, maxWidth);
+      if (lines) {
+        const bubbleWidth = Math.max(...lines.map(line => ctx.measureText(line).width)) + 2 * bubblePadding;
+        const bubbleHeight = lines.length * 24 + 2 * bubblePadding;
 
-            // Draw profile picture
-            const avtSize = 40;
-            const avtX = 10; // Position profile picture at the leftmost side
-            const avtY = y + 10;
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(avtX + avtSize / 2, avtY + avtSize / 2, avtSize / 2, 0, Math.PI * 2);
-            ctx.clip();
-            ctx.drawImage(avtImage, avtX, avtY, avtSize, avtSize);
-            ctx.restore();
+        // Draw profile picture
+        const avtSize = 40;
+        const avtX = 10; // Position profile picture at the leftmost side
+        const avtY = y;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(avtX + avtSize / 2, avtY + avtSize / 2, avtSize / 2, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(avtImage, avtX, avtY, avtSize, avtSize);
+        ctx.restore();
 
-            // Draw text bubble
-            ctx.fillStyle = myBubbleColor;
-            const bubbleX = avtX + avtSize + 10;
-            ctx.beginPath();
-            ctx.moveTo(bubbleX, y);
-            ctx.lineTo(bubbleX + bubbleWidth - bubbleRadius, y);
-            ctx.arc(bubbleX + bubbleWidth - bubbleRadius, y + bubbleRadius, bubbleRadius, 1.5 * Math.PI, 2 * Math.PI);
-            ctx.lineTo(bubbleX + bubbleWidth, y + bubbleHeight - bubbleRadius);
-            ctx.arc(bubbleX + bubbleWidth - bubbleRadius, y + bubbleHeight - bubbleRadius, bubbleRadius, 0, 0.5 * Math.PI);
-            ctx.lineTo(bubbleX, y + bubbleHeight);
-            ctx.lineTo(bubbleX, y);
-            ctx.closePath();
-            ctx.fill();
+        // Draw text bubble
+        ctx.fillStyle = myBubbleColor;
+        const bubbleX = avtX + avtSize + 10;
+        ctx.beginPath();
+        ctx.moveTo(bubbleX, y);
+        ctx.arcTo(bubbleX + bubbleWidth, y, bubbleX + bubbleWidth, y + bubbleHeight, bubbleRadius);
+        ctx.arcTo(bubbleX + bubbleWidth, y + bubbleHeight, bubbleX, y + bubbleHeight, bubbleRadius);
+        ctx.arcTo(bubbleX, y + bubbleHeight, bubbleX, y, bubbleRadius);
+        ctx.arcTo(bubbleX, y, bubbleX + bubbleWidth, y, bubbleRadius);
+        ctx.closePath();
+        ctx.fill();
 
-            // Draw text
-            ctx.fillStyle = textColor;
-            ctx.font = "20px sans-serif";
-            ctx.textBaseline = "top";
-            lines.forEach((line, index) => {
-                ctx.fillText(line, bubbleX + bubblePadding, y + bubblePadding + index * 24);
-            });
+        // Draw text
+        ctx.fillStyle = textColor;
+        ctx.font = "20px sans-serif";
+        ctx.textBaseline = "top";
+        lines.forEach((line, index) => {
+          ctx.fillText(line, bubbleX + bubblePadding, y + bubblePadding + index * 24);
+        });
 
-            // Update y position for the next bubble
-            y += bubbleHeight + bubbleMargin;
-        }
+        // Update y position for the next bubble
+        y += bubbleHeight + bubbleMargin;
+      }
     }
 
     // Save the final image
