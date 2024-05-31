@@ -86,28 +86,29 @@ module.exports = {
         const lines = await this.wrapText(ctx, message, maxWidth);
         if (lines) {
             const bubbleWidth = Math.max(...lines.map(line => ctx.measureText(line).width)) + 2 * bubblePadding;
-            const x = canvasWidth / 2 - bubbleWidth / 2;
 
             // Draw profile picture
-            const avtX = bubbleMargin; // Position profile picture at the leftmost side
-            const avtY = y + bubbleHeight / 2 - avtImage.height / 2;
+            const avtSize = 40;
+            const avtX = 10; // Position profile picture at the leftmost side
+            const avtY = y + 10;
             ctx.save();
             ctx.beginPath();
-            ctx.arc(avtX + avtImage.width / 2, avtY + avtImage.height / 2, avtImage.width / 2, 0, Math.PI * 2);
+            ctx.arc(avtX + avtSize / 2, avtY + avtSize / 2, avtSize / 2, 0, Math.PI * 2);
             ctx.clip();
-            ctx.drawImage(avtImage, avtX, avtY, avtImage.width, avtImage.height);
+            ctx.drawImage(avtImage, avtX, avtY, avtSize, avtSize);
             ctx.restore();
 
             // Draw text bubble
             ctx.fillStyle = myBubbleColor;
+            const bubbleX = avtX + avtSize + 10;
             ctx.beginPath();
-            ctx.moveTo(x + avtImage.width + bubblePadding, y);
-            ctx.lineTo(x + bubbleWidth - bubbleRadius, y);
-            ctx.arc(x + bubbleWidth - bubbleRadius, y + bubbleRadius, bubbleRadius, 1.5 * Math.PI, 2 * Math.PI);
-            ctx.lineTo(x + bubbleWidth, y + bubbleHeight - bubbleRadius);
-            ctx.arc(x + bubbleWidth - bubbleRadius, y + bubbleHeight - bubbleRadius, bubbleRadius, 0, 0.5 * Math.PI);
-            ctx.lineTo(x + avtImage.width + bubblePadding, y + bubbleHeight);
-            ctx.lineTo(x + avtImage.width + bubblePadding, y);
+            ctx.moveTo(bubbleX, y);
+            ctx.lineTo(bubbleX + bubbleWidth - bubbleRadius, y);
+            ctx.arc(bubbleX + bubbleWidth - bubbleRadius, y + bubbleRadius, bubbleRadius, 1.5 * Math.PI, 2 * Math.PI);
+            ctx.lineTo(bubbleX + bubbleWidth, y + bubbleHeight - bubbleRadius);
+            ctx.arc(bubbleX + bubbleWidth - bubbleRadius, y + bubbleHeight - bubbleRadius, bubbleRadius, 0, 0.5 * Math.PI);
+            ctx.lineTo(bubbleX, y + bubbleHeight);
+            ctx.lineTo(bubbleX, y);
             ctx.closePath();
             ctx.fill();
 
@@ -116,7 +117,7 @@ module.exports = {
             ctx.font = "20px sans-serif";
             ctx.textBaseline = "top";
             lines.forEach((line, index) => {
-                ctx.fillText(line, x + avtImage.width + bubblePadding + bubblePadding, y + bubblePadding + index * 24);
+                ctx.fillText(line, bubbleX + bubblePadding, y + bubblePadding + index * 24);
             });
 
             // Update y position for the next bubble
